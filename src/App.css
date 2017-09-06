@@ -1,0 +1,39 @@
+.App {
+  text-align: center;
+  height: 100vh;
+  display: grid;
+  grid-template-rows: auto 80% auto;
+  grid-template-areas: 
+    "header header header"
+    "hero hero hero"
+    "footer footer footer";
+}
+
+.hero-img {
+  /* background: url(/batman-hero.jpg) no-repeat; */
+  max-width: 100%;
+  background-position: center;
+  background-size: cover;
+  grid-area: hero;
+}
+video {
+  width: 100%;
+  max-width: 100%;
+}
+.header {
+  grid-area: header;
+}
+
+.footer {
+  grid-area: footer;
+}
+
+/* @media (max-width: 480px) {
+  .App {
+    grid-template-rows: 80% auto auto;  
+    grid-template-areas: 
+    "hero hero hero"
+    "header header header"
+    "footer footer footer";
+  }
+} */
