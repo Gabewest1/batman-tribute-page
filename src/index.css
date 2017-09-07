@@ -21,9 +21,13 @@ body {
 }
 @font-face {
   font-family: GothamNights;
-  src: url(/fonts/GothamNights.ttf);
+  src: url(/fonts/GothamNights.otf);
 }
 @font-face {
   font-family: JusticeLeague;
   src: url(/fonts/JusticeLeague.ttf);
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: JusticeLeague;
 }
