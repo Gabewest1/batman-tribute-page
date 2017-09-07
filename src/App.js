@@ -1,21 +1,28 @@
-import React, { Component } from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, { Component } from "react"
+import HeroVideo from "./components/HeroVideo"
+import Navbar from "./components/Navbar"
+import Timeline from "./components/Timeline"
+import "./App.css"
 
 class App extends Component {
-  render() {
-    return (
-      <div className="App">
-        <div className="header">Timeline</div>
-        <div className="hero-img" >
-          <video src="/batman-hero-video.mp4" autoPlay />
-        </div>
-        <footer className="footer">
+	render() {
+		const src = window.innerWidth < 600
+			? "/videos/batman-hero-mobile.mp4"
+			: "/videos/batman-hero.mp4"
+
+		const heightOfNavbar = "20vmin"
+
+		return (
+			<div className="App">
+				<Navbar height={ heightOfNavbar } />
+				<HeroVideo src={ src } style={{ marginTop: heightOfNavbar }} />
+				<Timeline />
+				<footer className="footer">
           To learn more about <a href="#">Batman</a>
-        </footer>
-      </div>
-    );
-  }
+				</footer>
+			</div>
+		)
+	}
 }
 
-export default App;
+export default App
