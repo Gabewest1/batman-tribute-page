@@ -11,6 +11,7 @@
     "hero hero hero"
     "timeline timeline timeline"
     "footer footer footer";
+  grid-row-gap: 1em;
 }
 
 .footer {
