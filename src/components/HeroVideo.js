@@ -38,7 +38,6 @@ class HeroVideo extends React.Component {
             <Container { ...this.props }>
                 <VideoWrapper>
                     <TintedOverlay />
-                    <Title>The Dark Knight</Title>
                     <Video
                       innerRef={ el => el.playbackRate = .9 }
                       src={ src }
@@ -47,7 +46,7 @@ class HeroVideo extends React.Component {
                       loop />
 
                 </VideoWrapper>
-            </Container>   
+            </Container>
         )
     }
 }

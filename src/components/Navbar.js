@@ -2,24 +2,26 @@ import React from "react"
 import styled from "styled-components"
 
 const Nav = styled.div`
-    position: fixed;
+    // position: fixed;
     background: black;
     grid-area: nav;
     display: flex;
+    flex-direction: column;
     padding: 15px;
     box-sizing: border-box;
     top: 0;
     width: 100%;
     z-index: 1;
-    height: ${({ height }) => height || "15vmin"};
+    width: ${({ height }) => height || "auto"};
+    height: 100%;
 `
 const BatmanLogo = styled.img`
     max-height: 100%;
-    max-width: 10%;   
+    max-width: 100%;   
     position: relative;
-    left: ${({ left }) => left || "0px"}; 
+    top: ${({ left }) => left || "0px"}; 
     transform: 
-        translateX(${({ progress }) => progress})
+        translateY(${({ progress }) => progress})
         rotate(${({ progress }) => progress.replace("px", "deg")});
     z-index: 1;
 `
@@ -27,17 +29,20 @@ const Timeline = styled.ul`
     padding: 0;
     margin: 0;
     position: absolute;
-    height: 3px;
-    width: 100%;
+    width: 3px;
+    height: 100%;
     background: silver;
     list-style: none;
     display: flex;
+    flex-direction: column;
     justify-content: space-between;
 `
 const TimelineContainer = styled.div`
     position: relative;
     display: flex;
+    flex-direction: column;    
     align-items: center;
+    height: 100%;    
 `
 const Bullet = styled.li`
     height: 15px;
@@ -45,7 +50,7 @@ const Bullet = styled.li`
     border-radius: 50%;
     background: black;
     border: solid silver 3px;
-    transform: translateY(-45%);
+    transform: translateX(-45%);
 `
 
 class Navbar extends React.Component {
@@ -66,7 +71,7 @@ class Navbar extends React.Component {
         }, 1)
 
         document.addEventListener("scroll", (e) => {
-            const timelineWidth = this.timeline.getBoundingClientRect().width
+            const timelineWidth = this.timeline.getBoundingClientRect().height
             const maxScrollAmount = document.body.scrollHeight - window.innerHeight
             const amountScrolled = window.scrollY
 
@@ -79,15 +84,15 @@ class Navbar extends React.Component {
         console.log("BULLETS:", bullets)
 
         const positions = bullets.map((bullet) => {
-            const { left, width } = bullet.getBoundingClientRect()
+            const { top, width } = bullet.getBoundingClientRect()
             const style = bullet.currentStyle || window.getComputedStyle(bullet)
-            const margin = parseFloat(style.marginLeft) + parseFloat(style.marginRight)
-            const padding = parseFloat(style.paddingLeft) + parseFloat(style.paddingRight)
-            const border = parseFloat(style.borderLeftWidth) + parseFloat(style.borderRightWidth)
+            const margin = parseFloat(style.marginTop) + parseFloat(style.marginBottom)
+            const padding = parseFloat(style.paddingTop) + parseFloat(style.paddingBottom)
+            const border = parseFloat(style.borderTopWidth) + parseFloat(style.borderBottomWidth)
 
-            console.log(left, width, margin, padding, border, width + margin + padding + border)
+            console.log(top, width, margin, padding, border, width + margin + padding + border)
             const realWidth = width + margin + padding + border
-            const center = left + (realWidth / 2)
+            const center = top + (realWidth / 2)
 
             return center
         })
@@ -97,8 +102,8 @@ class Navbar extends React.Component {
         })
     }
     moveLogoToFirstBullet(newCenter) {
-        const { left, width } = this.logo.getBoundingClientRect()
-        const currentCenter = left + (width / 2)
+        const { top, height } = this.logo.getBoundingClientRect()
+        const currentCenter = top + (height / 2)
         const delta = `${newCenter - currentCenter}px`
         console.log("Moving Logo To:", newCenter)
         this.setState({
@@ -117,9 +122,6 @@ class Navbar extends React.Component {
                         left={ startingLeftPosition }
                         progress={ progress } />
                     <Timeline innerRef={ el => this.timeline = el }>
-                        <Bullet />
-                        <Bullet />
-                        <Bullet />
                         <Bullet />
                         <Bullet />
                         <Bullet />

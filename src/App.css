@@ -8,9 +8,10 @@
   color: white;
   grid-template-rows: 80% auto auto;
   grid-template-areas: 
-    "hero hero hero"
-    "timeline timeline timeline"
-    "footer footer footer";
+    "header header header header"
+    "hero hero hero hero"
+    "nav timeline timeline timeline"
+    "footer footer footer footer";
   grid-row-gap: 1em;
 }
 
