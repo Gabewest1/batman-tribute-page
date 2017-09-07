@@ -5,29 +5,25 @@ body {
 }
 @font-face {
   font-family: BatFont;
-  src: url(/fonts/BatFont.ttf);
+  src: url(/fonts/BatFont.ttf) format('truetype');
 }
 @font-face {
   font-family: BlackCaps;
-  src: url(/fonts/BlackCaps.ttf);
+  src: url(/fonts/BlackCaps.ttf) format('truetype');
 }
 @font-face {
   font-family: DkcForever;
-  src: url(/fonts/DkcForever.ttf);
+  src: url(/fonts/DkcForever.ttf) format('truetype');
 }
 @font-face {
   font-family: Gomarice;
-  src: url(/fonts/Gomarice.ttf);
+  src: url(/fonts/Gomarice.ttf) format('truetype');
 }
 @font-face {
   font-family: GothamNights;
-  src: url(/fonts/GothamNights.otf);
+  src: url(/fonts/GothamNights.otf) format('opentype');
 }
 @font-face {
   font-family: JusticeLeague;
-  src: url(/fonts/JusticeLeague.ttf);
-}
-
-h1, h2, h3, h4, h5, h6 {
-  font-family: JusticeLeague;
+  src: url(/fonts/JusticeLeague.ttf) format('truetype');
 }
