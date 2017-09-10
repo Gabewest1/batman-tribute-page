@@ -1,93 +1,113 @@
 import React from "react"
 import styled from "styled-components"
 
-let TimelineItem = styled.div`
-    padding: 40px 0;
-    transition: .5s;
-    box-sizing: border-box;
-    display: grid;
+const BatmanLogo = styled.img`
+    max-height: 100%;
+    max-width: 100%;   
     position: relative;
-    grid-column-gap: 1em;
-
-    // @media (max-width: 768px) {
-    //     grid-template-areas:
-    //         "year year"
-    //         "image desc" !important; //Important is needed because the Container that holds
-    //                                 //these timelineItems sets their grid-template-areas
-    //                                 //with a very specific selector that trumps @media.
-    // }
+    top: ${({ left }) => left || "0px"}; 
+    transform: 
+        translateY(${({ progress }) => progress})
+        rotate(${({ progress }) => progress.replace("px", "deg")});
+    z-index: 1;
 `
-let Container = styled.div`
+const Timeline1 = styled.ul`
+    padding: 0;
+    margin: 0;
+    position: absolute;
+    width: 3px;
+    height: 100%;
+    background: silver;
+    list-style: none;
     display: flex;
     flex-direction: column;
-    margin: 0 auto;
-    flex-wrap: wrap;
-    max-width: 700px;
+    justify-content: space-between;
+`
+const TimelineContainer = styled.div`
     position: relative;
-    grid-area: timeline;
-    
-    > ${TimelineItem}:nth-child(odd) {
-        grid-template-areas:
-            "image year"
-            "image desc";
-    }
-    
-    > ${TimelineItem}:nth-child(even) {
-        grid-template-areas:
-            "year image"
-            "desc image";
-    }
-                        
+    display: flex;
+    flex-direction: column;    
+    align-items: center;
+    height: 100%;    
 `
-let Image = styled.img`
-    max-width: 100%;
-    background: white;
-    box-sizing: border-box;
-    padding: 5px;
-    box-shadow: 0 0 5px 2px;
-    grid-area: image;
+const Bullet = styled.li`
+    height: 15px;
+    width: 15px;
+    border-radius: 50%;
+    background: black;
+    border: solid silver 3px;
+    transform: translateX(-45%);
 `
-let Year = styled.h1`
-    font-family: BatFont;
-    font-size: 3em;
-    margin: 0;
-    grid-area: year;
-`
-let Description = styled.p`
-    font-family: JusticeLeague;
-    grid-area: desc;
-    margin: 0;
-`
-class Timeline extends React.Component {
-    render() {
-        return (
-            <Container>
-                <TimelineItem>
-                    <Image src="/images/batman1.jpg" />
-                    <Year>1920</Year>
-                    <Description>
-                        Bruce and his family were leaving the theater
-                        after a night of festivites. On their way down
-                        a back ally, they were held up at gun point.
-                        Bruces dad, Jared, took a bullet to the skull, leaving
-                        bruce as a bastard child.
-                    </Description>
-                </TimelineItem>
 
-                <TimelineItem>
-                    <Image src="/images/batman1.jpg" />
-                    <Year>1920</Year>
-                    <Description>
-                        Bruce and his family were leaving the theater
-                        after a night of festivites. On their way down
-                        a back ally, they were held up at gun point.
-                        Bruces dad, Jared, took a bullet to the skull, leaving
-                        bruce as a bastard child.
-                    </Description>
-                </TimelineItem>
-            </Container>
-        )
+class Timeline extends React.Component {
+    constructor() {
+        super()
+        this.state = {
+            startingLeftPosition: 0,
+            bulletsCenterPositions: [],
+            progress: "0px",
+        }
     }
+    componentDidMount() {
+        console.log("STATE B4:", this.state)
+        this.getCenterOfBullets()
+
+        if (this.state.progress === "0px") {
+            this.setState({ progress: `${this.getProgress()}px` })
+        }
+
+        document.addEventListener("scroll", (e) => {
+            this.setState({ progress: `${this.getProgress()}px` })
+        })
+    }
+    getCenterOfBullets() {
+        const bullets = Array.from(this.timeline.children)
+        console.log("BULLETS:", bullets)
+
+        const positions = bullets.map((bullet) => {
+            const { top, width } = bullet.getBoundingClientRect()
+            const style = bullet.currentStyle || window.getComputedStyle(bullet)
+            const margin = parseFloat(style.marginTop) + parseFloat(style.marginBottom)
+            const padding = parseFloat(style.paddingTop) + parseFloat(style.paddingBottom)
+            const border = parseFloat(style.borderTopWidth) + parseFloat(style.borderBottomWidth)
+
+            console.log(top, width, margin, padding, border, width + margin + padding + border)
+            const realWidth = width + margin + padding + border
+            const center = top + (realWidth / 2)
+
+            return center
+        })
+
+        this.setState({
+            bulletsCenterPositions: positions,
+        })
+    }
+    getProgress() {
+        const timelineWidth = this.timeline.getBoundingClientRect().height
+        const maxScrollAmount = document.body.scrollHeight - window.innerHeight
+        const amountScrolled = window.scrollY
+
+        return (amountScrolled * timelineWidth) / maxScrollAmount
+    }
+	render() {
+        const { startingLeftPosition, progress } = this.state
+
+		return (
+            <TimelineContainer { ...this.props }>
+                <BatmanLogo
+                    innerRef={ el => this.logo = el }
+                    src="/images/batman-logo.png"
+                    left={ startingLeftPosition }
+                    progress={ progress } />
+                <Timeline1 innerRef={ el => this.timeline = el }>
+                    <Bullet />
+                    <Bullet />
+                    <Bullet />
+                    <Bullet />
+                </Timeline1>
+            </TimelineContainer>
+		)
+	}
 }
 
 export default Timeline

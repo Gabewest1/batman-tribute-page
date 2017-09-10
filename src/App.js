@@ -1,8 +1,8 @@
 import React, { Component } from "react"
 import styled from "styled-components"
 import HeroVideo from "./components/HeroVideo"
-import Navbar from "./components/Navbar"
 import Timeline from "./components/Timeline"
+import BatmanHistory from "./components/BatmanHistory"
 import "./App.css"
 
 const Header = styled.h1`
@@ -27,11 +27,10 @@ class App extends Component {
 		}
 		return (
 			<div className="App">
-				<Header>The Dark Knight</Header>
-				<Navbar />
-				<HeroVideo src={ src } />
-				<Timeline />
-				<footer className="footer">
+				<Header style={{ gridArea: "header" }}>The Dark Knight</Header>
+				<HeroVideo style={{ gridArea: "hero" }} src={ src } />
+				<BatmanHistory style={{ gridArea: "history" }} />
+				<footer className="footer" style={{ gridArea: "footer" }}>
           To learn more about <a href="#">Batman</a>
 				</footer>
 			</div>

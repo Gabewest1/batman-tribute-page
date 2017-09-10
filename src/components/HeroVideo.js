@@ -12,7 +12,6 @@ let VideoWrapper = styled.div`
 `
 let Container = styled.div`
     position: relative;
-    grid-area: hero;
 `
 let TintedOverlay = styled.div`
     background: rgba(0,0,0,.7);
@@ -33,7 +32,7 @@ let Title = styled.h1`
 class HeroVideo extends React.Component {
     render() {
         let { src } = this.props
-        
+
         return (
             <Container { ...this.props }>
                 <VideoWrapper>
