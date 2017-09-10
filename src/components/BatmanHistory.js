@@ -5,15 +5,13 @@ import Timeline from "./Timeline"
 let TimelineItem = styled.div`
     box-sizing: border-box;
     display: grid;
-    // grid-area: item;
-    grid-column-gap: 1em;
+    grid-row-gap: 1em;
     position: relative;
-    // padding: 40px 0;
     transition: .5s;
     grid-template-areas: 
-        "image"
         "year"
-        "desc";
+        "image"
+        "desc" !important;
 
     @media (max-width: 480px) {
         font-size: 8px;
@@ -33,9 +31,12 @@ let Container = styled.div`
     margin: 0 auto;
     position: relative;
     grid-template-columns: auto 100px auto;
-    grid-template-areas: 
-        ".    timeline item1"
-        "item2 timeline .";
+    grid-row-gap: 100px;
+    grid-template-areas:
+        ".     timeline ."
+        ".     timeline item1"
+        "item2 timeline ."
+        ".     timeline .";
     
     > ${TimelineItem}:nth-child(odd) {
         grid-template-areas:
@@ -69,12 +70,31 @@ let Description = styled.p`
     grid-area: desc;
     margin: 0;
 `
+
+
 class BatmanHistory extends React.Component {
+    constructor() {
+        super()
+        this.state = {
+            timelineItemsPositions: []
+        }
+
+        this.timelineItems = []
+    }
+    componentDidMount() {
+        setTimeout(() => {
+            console.log(this.timelineItems)
+            const positions = this.timelineItems.map(item => `top: ${item.offsetTop}px`)
+            console.log("TOP VALUES:", positions)
+            this.setState({ timelineItemsPositions: positions })
+
+        }, 1)
+    }
     render() {
         return (
             <Container>
-                <Timeline style={{ gridArea: "timeline" }} />
-                <TimelineItem style={{ gridArea: "item1" }}>
+                <Timeline style={{ gridArea: "timeline" }} bullets={ this.state.timelineItemsPositions } />
+                <TimelineItem innerRef={ (el) => this.timelineItems.push(el) }style={{ gridArea: "item1" }}>
                     <Image src="/images/batman1.jpg" />
                     <Year>1920</Year>
                     <Description>
@@ -86,7 +106,7 @@ class BatmanHistory extends React.Component {
                     </Description>
                 </TimelineItem>
 
-                <TimelineItem style={{ gridArea: "item2" }}>
+                <TimelineItem innerRef={ (el) => this.timelineItems.push(el) }style={{ gridArea: "item2" }}>
                     <Image src="/images/batman1.jpg" />
                     <Year>1920</Year>
                     <Description>

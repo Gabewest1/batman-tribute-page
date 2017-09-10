@@ -37,6 +37,11 @@ const Bullet = styled.li`
     background: black;
     border: solid silver 3px;
     transform: translateX(-45%);
+    position: absolute;
+    ${({ position }) => {
+        console.log("POSITION:", position)
+        return position
+    }};
 `
 
 class Timeline extends React.Component {
@@ -53,11 +58,11 @@ class Timeline extends React.Component {
         this.getCenterOfBullets()
 
         if (this.state.progress === "0px") {
-            this.setState({ progress: `${this.getProgress()}px` })
+            this.setState({ progress: `${this.getScrollProgress()}px` })
         }
 
         document.addEventListener("scroll", (e) => {
-            this.setState({ progress: `${this.getProgress()}px` })
+            this.setState({ progress: `${this.getScrollProgress()}px` })
         })
     }
     getCenterOfBullets() {
@@ -82,12 +87,13 @@ class Timeline extends React.Component {
             bulletsCenterPositions: positions,
         })
     }
-    getProgress() {
-        const timelineWidth = this.timeline.getBoundingClientRect().height
-        const maxScrollAmount = document.body.scrollHeight - window.innerHeight
-        const amountScrolled = window.scrollY
+    getScrollProgress() {
+        const startingPosition = this.timeline.getBoundingClientRect().top + 20
+        const timelineLength = this.timeline.getBoundingClientRect().height
+        const maxScrollAmount = document.body.scrollHeight - window.innerHeight - startingPosition
+        const amountScrolled = Math.max(0, (window.scrollY - startingPosition))
 
-        return (amountScrolled * timelineWidth) / maxScrollAmount
+        return (amountScrolled * timelineLength) / maxScrollAmount
     }
 	render() {
         const { startingLeftPosition, progress } = this.state
@@ -100,10 +106,11 @@ class Timeline extends React.Component {
                     left={ startingLeftPosition }
                     progress={ progress } />
                 <Timeline1 innerRef={ el => this.timeline = el }>
-                    <Bullet />
-                    <Bullet />
-                    <Bullet />
-                    <Bullet />
+                    <Bullet position={ "top: 0" } />
+                    {this.props.bullets.map(bullet => (
+                        <Bullet key={ bullet } position={ bullet } />
+                    ))}
+                    <Bullet position={ "top: 100%" } />
                 </Timeline1>
             </TimelineContainer>
 		)
