@@ -6,9 +6,9 @@
   min-height: 100vh;
   display: grid;
   color: white;
-  grid-template-rows: 80% auto auto;
+  grid-template-rows:  100vh auto auto;
+  /* "header" */
   grid-template-areas: 
-    "header"
     "hero"
     "history"
     "footer";
