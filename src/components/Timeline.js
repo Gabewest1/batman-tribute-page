@@ -6,10 +6,13 @@ const BatmanLogo = styled.img`
     max-height: 100%;
     max-width: 100%;   
     position: relative;
-    top: ${({ left }) => left || "0px"}; 
+    top: ${({ progress }) => Math.min(progress, 100)};
     transform: 
-        translateY(${({ progress }) => progress})
-        rotate(${({ progress }) => progress.replace("px", "deg")});
+        rotate(${({ progress }) => {
+            progress = parseFloat(progress.replace(/(px)|(%)/g, ""))
+            rotationAmount = (progress * 360) / 100
+            return `${rotationAmount}deg`
+        }};
     z-index: 1;
 `
 const Timeline1 = styled.ul`
@@ -47,41 +50,16 @@ const Bullet = styled.li`
 `
 
 class Timeline extends React.Component {
-    constructor() {
-        super()
-        this.state = {
-            startingPosition: 0,
-            progress: "0px",
-        }
-    }
-    componentDidMount() {
-        this.setState({ progress: `${this.getScrollProgress()}px` })
-
-        document.addEventListener("scroll", (e) => {
-            this.setState({ progress: `${this.getScrollProgress()}px` })
-        })
-    }
-    getScrollProgress() {
-        const startingPosition = $(this.timeline).position().top
-        const timelineLength = this.timeline.getBoundingClientRect().height
-        const maxScrollAmount = document.body.scrollHeight - window.innerHeight - startingPosition
-        const amountScrolled = Math.max(0, (window.scrollY - startingPosition))
-
-        return (amountScrolled * timelineLength) / maxScrollAmount
-    }
-
 	render() {
-        const { startingPosition, progress } = this.state
+        const { progress } = this.props
 
 		return (
             <TimelineContainer { ...this.props }>
                 <BatmanLogo
-                    innerRef={ el => this.logo = el }
                     src="/images/batman-logo.png"
-                    left={ startingPosition }
                     progress={ progress } />
-                <Timeline1 innerRef={ el => this.timeline = el }>
-                    <Bullet position={ "0" } />
+                <Timeline1>
+                    <Bullet position={ "0%" } />
                     {this.props.bullets.map(bullet => (
                         <Bullet key={ bullet } position={ bullet } progress={ progress } />
                     ))}
