@@ -6,13 +6,21 @@ const BatmanLogo = styled.img`
     max-height: 100%;
     max-width: 100%;   
     position: relative;
-    top: ${({ progress }) => Math.min(progress, 100)};
     transform: 
+        translateY(${({ progress }) => {
+            progress = parseFloat(progress.replace(/(px)|(%)/g, ""))
+            const $timelineContainer = $("#timeline")
+            const timelineHeight = $timelineContainer.outerHeight()
+            const progressInPixels = (progress * timelineHeight) / 100
+
+            return `${progressInPixels}px`
+        }})
         rotate(${({ progress }) => {
             progress = parseFloat(progress.replace(/(px)|(%)/g, ""))
-            rotationAmount = (progress * 360) / 100
+            const rotationAmount = (progress * 360) / 100
+            console.log("rotationAmount: ", rotationAmount)
             return `${rotationAmount}deg`
-        }};
+        }});
     z-index: 1;
 `
 const Timeline1 = styled.ul`
@@ -35,14 +43,16 @@ const TimelineContainer = styled.div`
     height: 100%;    
 `
 const Bullet = styled.li`
-    height: 15px;
-    width: 15px;
+    height: 1.5em;
+    width: 1.5em;
     border-radius: 50%;
     background: ${({ position, progress }) => {
+        //Check if the user has scrolled past this bullet and display the batman logo if it has
         position = position ? parseFloat(position.replace(/(px)|(%)/g, "")) : position
         progress = progress ? parseFloat(progress.replace(/(px)|(%)/g, "")) : progress
-        return progress >= position ? "yellow" : "black"}
-    };
+        return progress >= position ? "url(/images/batman-bullet.png)" : "black"
+    }};
+    background-size: 100% 100%;
     border: solid silver 3px;
     transform: translateX(-45%);
     position: absolute;
@@ -54,7 +64,7 @@ class Timeline extends React.Component {
         const { progress } = this.props
 
 		return (
-            <TimelineContainer { ...this.props }>
+            <TimelineContainer id="timeline" { ...this.props }>
                 <BatmanLogo
                     src="/images/batman-logo.png"
                     progress={ progress } />
