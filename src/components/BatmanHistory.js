@@ -36,7 +36,9 @@ let Container = styled.div`
     flex-direction: column;
     flex-wrap: wrap;
     margin: 0 auto;
+    padding: 2em 0;
     position: relative;
+    max-width: 768px;
     grid-template-columns: auto 100px auto;
     grid-row-gap: 100px;
     grid-template-areas:
@@ -46,14 +48,14 @@ let Container = styled.div`
         ".     timeline .";
     
     > ${TimelineItem}:nth-child(odd) {
-        transform: translateX(-100%);
+        transform: translateX(-${window.innerWidth}px);
         grid-template-areas:
             "image year"
             "image desc";
     }
     
     > ${TimelineItem}:nth-child(even) {
-        transform: translateX(100%);        
+        transform: translateX(${window.innerWidth}px);        
         grid-template-areas:
             "year image"
             "desc image";
@@ -86,31 +88,35 @@ class BatmanHistory extends React.Component {
         super()
         this.state = {
             timelineItemsPositions: [],
-            progress: "0px"
+            progress: "0%"
         }
 
         this.timelineItems = []
     }
     componentDidMount() {
         setTimeout(() => {
-            console.log(this.timelineItems)
-            const positions = this.timelineItems.map(item => `${item.item.offsetTop}px`)
-            console.log("TOP VALUES:", positions)
+            const positions = this.timelineItems.map(({ item }) => {
+                const parentHeight = $(item.parentNode).outerHeight()
+                const itemTop = item.offsetTop
+                const itemTopAsPercentageOfParentsHeight = (itemTop / parentHeight) * 100
+                return `${itemTopAsPercentageOfParentsHeight}%`
+            })
             this.setState({ timelineItemsPositions: positions })
         }, 1)
+
         document.addEventListener("scroll", (e) => {
-            this.setState({ progress: `${this.getScrollProgress()}px` })
+            this.setState({ progress: `${this.getScrollProgress()}` })
         })
 
-        this.setState({ progress: `${this.getScrollProgress()}px` })
+        this.setState({ progress: `${this.getScrollProgress()}` })
     }
     getScrollProgress() {
-        const startingPosition = $(this.timeline).position().top
-        const timelineLength = this.timeline.getBoundingClientRect().height
+        const startingPosition = $(this.timeline).offset().top - 100
         const maxScrollAmount = document.body.scrollHeight - window.innerHeight - startingPosition
         const amountScrolled = Math.max(0, (window.scrollY - startingPosition))
+        const percentComplete = (amountScrolled / maxScrollAmount) * 100
 
-        return (amountScrolled * timelineLength) / maxScrollAmount
+        return `${percentComplete}%`
     }
     addTimelineItem({ id, item }) {
         if (this.timelineItems.filter(el => el.id === id).length === 0) {
@@ -119,11 +125,12 @@ class BatmanHistory extends React.Component {
     }
     render() {
         const { progress, timelineItemsPositions } = this.state
-        console.log(progress, timelineItemsPositions)
+
         return (
             <Container>
                 <Timeline
                     style={{ gridArea: "timeline" }}
+                    progress={ progress }
                     bullets={ this.state.timelineItemsPositions }
                     innerRef={ (el) => this.timeline = el } />
                 <TimelineItem 
