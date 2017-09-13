@@ -1,11 +1,12 @@
 .App {
   background: black;
-  position: relative;
-  text-align: center;
+  color: white;
+  display: grid;
   height: 100%;
   min-height: 100vh;
-  display: grid;
-  color: white;
+  overflow-x: hidden;
+  position: relative;
+  text-align: center;
   grid-template-rows:  100vh auto auto;
   /* "header" */
   grid-template-areas: 
