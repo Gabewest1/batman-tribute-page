@@ -11,7 +11,7 @@ class App extends Component {
 			<div className="App">
 				<BatmanHero style={{ gridArea: "hero" }} />
 				<BatmanHistory style={{ gridArea: "history" }} />
-				<footer className="footer" style={{ gridArea: "footer" }}>
+				<footer className="footer" style={{ gridArea: "footer", height: "150px", background: "#2d2d2d" }}>
           			To learn more about <a href="#">Batman</a>
 				</footer>
 			</div>
