@@ -1,5 +1,6 @@
 import React from "react"
 import styled from "styled-components"
+import $ from "jquery"
 
 const BatmanLogo = styled.img`
     max-height: 100%;
@@ -34,83 +35,57 @@ const Bullet = styled.li`
     height: 15px;
     width: 15px;
     border-radius: 50%;
-    background: black;
+    background: ${({ position, progress }) => {
+        position = position ? parseFloat(position.replace(/(px)|(%)/g, "")) : position
+        progress = progress ? parseFloat(progress.replace(/(px)|(%)/g, "")) : progress
+        return progress >= position ? "yellow" : "black"}
+    };
     border: solid silver 3px;
     transform: translateX(-45%);
     position: absolute;
-    ${({ position }) => {
-        console.log("POSITION:", position)
-        return position
-    }};
+    top: ${({ position }) => position};
 `
 
 class Timeline extends React.Component {
     constructor() {
         super()
         this.state = {
-            startingLeftPosition: 0,
-            bulletsCenterPositions: [],
+            startingPosition: 0,
             progress: "0px",
         }
     }
     componentDidMount() {
-        console.log("STATE B4:", this.state)
-        this.getCenterOfBullets()
-
-        if (this.state.progress === "0px") {
-            this.setState({ progress: `${this.getScrollProgress()}px` })
-        }
+        this.setState({ progress: `${this.getScrollProgress()}px` })
 
         document.addEventListener("scroll", (e) => {
             this.setState({ progress: `${this.getScrollProgress()}px` })
         })
     }
-    getCenterOfBullets() {
-        const bullets = Array.from(this.timeline.children)
-        console.log("BULLETS:", bullets)
-
-        const positions = bullets.map((bullet) => {
-            const { top, width } = bullet.getBoundingClientRect()
-            const style = bullet.currentStyle || window.getComputedStyle(bullet)
-            const margin = parseFloat(style.marginTop) + parseFloat(style.marginBottom)
-            const padding = parseFloat(style.paddingTop) + parseFloat(style.paddingBottom)
-            const border = parseFloat(style.borderTopWidth) + parseFloat(style.borderBottomWidth)
-
-            console.log(top, width, margin, padding, border, width + margin + padding + border)
-            const realWidth = width + margin + padding + border
-            const center = top + (realWidth / 2)
-
-            return center
-        })
-
-        this.setState({
-            bulletsCenterPositions: positions,
-        })
-    }
     getScrollProgress() {
-        const startingPosition = this.timeline.getBoundingClientRect().top + 20
+        const startingPosition = $(this.timeline).position().top
         const timelineLength = this.timeline.getBoundingClientRect().height
         const maxScrollAmount = document.body.scrollHeight - window.innerHeight - startingPosition
         const amountScrolled = Math.max(0, (window.scrollY - startingPosition))
 
         return (amountScrolled * timelineLength) / maxScrollAmount
     }
+
 	render() {
-        const { startingLeftPosition, progress } = this.state
+        const { startingPosition, progress } = this.state
 
 		return (
             <TimelineContainer { ...this.props }>
                 <BatmanLogo
                     innerRef={ el => this.logo = el }
                     src="/images/batman-logo.png"
-                    left={ startingLeftPosition }
+                    left={ startingPosition }
                     progress={ progress } />
                 <Timeline1 innerRef={ el => this.timeline = el }>
-                    <Bullet position={ "top: 0" } />
+                    <Bullet position={ "0" } />
                     {this.props.bullets.map(bullet => (
-                        <Bullet key={ bullet } position={ bullet } />
+                        <Bullet key={ bullet } position={ bullet } progress={ progress } />
                     ))}
-                    <Bullet position={ "top: 100%" } />
+                    <Bullet position={ "100%" } />
                 </Timeline1>
             </TimelineContainer>
 		)
