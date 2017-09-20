@@ -7,8 +7,11 @@ let TimelineItem = styled.div`
     box-sizing: border-box;
     display: grid;
     grid-row-gap: 1em;
+    max-width: 400px;
+    justify-self: center;
+    opacity: 0;
     position: relative;
-    transition: .5s;
+    transition: transform .5s ease-in-out, opacity .7s linear;
     grid-template-areas: 
         "year"
         "image"
@@ -17,7 +20,7 @@ let TimelineItem = styled.div`
     ${({ position, progress }) => {
         position = position ? parseFloat(position.replace(/(px)|(%)/g, "")) : position
         progress = progress ? parseFloat(progress.replace(/(px)|(%)/g, "")) : progress
-        return progress >= position ? "transform: translateX(0) !important;" : ""
+        return progress >= position ? "transform: translateX(0%) !important; opacity: 1;" : ""
     }};
         
     @media (max-width: 480px) {
@@ -35,10 +38,8 @@ let Container = styled.div`
     display: grid;
     flex-direction: column;
     flex-wrap: wrap;
-    margin: 0 auto;
     padding: 2em 0;
     position: relative;
-    max-width: 768px;
     grid-template-columns: auto 100px auto;
     grid-row-gap: 100px;
     grid-template-areas:
@@ -48,14 +49,14 @@ let Container = styled.div`
         ".     timeline .";
     
     > ${TimelineItem}:nth-child(odd) {
-        transform: translateX(-${window.innerWidth}px);
+        transform: translateX(-30%);
         grid-template-areas:
             "image year"
             "image desc";
     }
     
     > ${TimelineItem}:nth-child(even) {
-        transform: translateX(${window.innerWidth}px);        
+        transform: translateX(30%);        
         grid-template-areas:
             "year image"
             "desc image";

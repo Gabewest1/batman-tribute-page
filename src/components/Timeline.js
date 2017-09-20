@@ -18,7 +18,6 @@ const BatmanLogo = styled.img`
         rotate(${({ progress }) => {
             progress = parseFloat(progress.replace(/(px)|(%)/g, ""))
             const rotationAmount = (progress * 360) / 100
-            console.log("rotationAmount: ", rotationAmount)
             return `${rotationAmount}deg`
         }});
     z-index: 1;
