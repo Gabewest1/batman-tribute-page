@@ -34,8 +34,6 @@ class BatmanHero extends React.Component {
             <Container { ...this.props }>
                 <TintedOverlay />
                 { TitleComponent }
-                {/* <Image src="/images/batman-hero1.jpg" /> */}
-
             </Container>
         )
     }

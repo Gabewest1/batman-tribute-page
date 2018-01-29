@@ -46,6 +46,8 @@ let Container = styled.div`
         ".     timeline ."
         ".     timeline item1"
         "item2 timeline ."
+        ".     timeline item3"
+        "item4 timeline ."
         ".     timeline .";
     
     > ${TimelineItem}:nth-child(odd) {
@@ -165,6 +167,39 @@ class BatmanHistory extends React.Component {
                         bruce as a bastard child.
                     </Description>
                 </TimelineItem>
+
+                <TimelineItem
+                    innerRef={ (el) => this.addTimelineItem({ id: 2, item: el }) }
+                    style={{ gridArea: "item3" }}
+                    progress={ progress }
+                    position={ timelineItemsPositions[2] }>
+                    <Image src="/images/batman1.jpg" />
+                    <Year>1920</Year>
+                    <Description>
+                        Bruce and his family were leaving the theater
+                        after a night of festivites. On their way down
+                        a back ally, they were held up at gun point.
+                        Bruces dad, Jared, took a bullet to the skull, leaving
+                        bruce as a bastard child.
+                    </Description>
+                </TimelineItem>
+
+                <TimelineItem
+                    innerRef={ (el) => this.addTimelineItem({ id: 3, item: el }) }
+                    style={{ gridArea: "item4" }}
+                    progress={ progress }
+                    position={ timelineItemsPositions[3] }>
+                    <Image src="/images/batman1.jpg" />
+                    <Year>1920</Year>
+                    <Description>
+                        Bruce and his family were leaving the theater
+                        after a night of festivites. On their way down
+                        a back ally, they were held up at gun point.
+                        Bruces dad, Jared, took a bullet to the skull, leaving
+                        bruce as a bastard child.
+                    </Description>
+                </TimelineItem>
+
             </Container>
         )
     }
