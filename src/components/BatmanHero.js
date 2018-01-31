@@ -27,8 +27,8 @@ const Title = styled.h1`
 class BatmanHero extends React.Component {
     render() {
         const TitleComponent = window.innerWidth < 662
-            ? (<Title>History<br/> of the<br/> Arkham Knight</Title>)
-            : (<Title>History of the Arkam Knight</Title>)
+            ? (<Title>Orgins<br/> of the<br/> Arkham Knight</Title>)
+            : (<Title>Orgins of the Arkam Knight</Title>)
 
         return (
             <Container { ...this.props }>
