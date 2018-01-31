@@ -159,7 +159,7 @@ class BatmanHistory extends React.Component {
                     position={ timelineItemsPositions[1] }>
                     <Image src="/images/batman_family.jpg" />
                     <Description>
-                        Bruce is brought up in Wayne Manor, and leads a happy and privileged life until the age of eight.
+                        Bruce is brought up in Wayne Manor, and leads a happy and privileged life with his father thomas and mother Martha.
                     </Description>
                 </TimelineItem>
 
@@ -170,7 +170,7 @@ class BatmanHistory extends React.Component {
                     position={ timelineItemsPositions[2] }>
                     <Image src="/images/batman_family_dead.jpg" />
                     <Description>
-                        His parents are killed by a small-time criminal named Joe Chill while on their way home from a movie theater.
+                        While on their way home from the movie theater, his parents are killed by a small-time criminal named Joe Chill.
                     </Description>
                 </TimelineItem>
 
@@ -181,7 +181,7 @@ class BatmanHistory extends React.Component {
                     position={ timelineItemsPositions[3] }>
                     <Image src="/images/batman_training.jpg" />
                     <Description>
-                        That night, Bruce Wayne swears an oath to spend his life fighting crime. 
+                        Bruce Wayne swears an oath to spend his life fighting crime. 
                         He engages in intense intellectual and physical training; however, he realizes that these skills alone would not be enough.
                     </Description>
                 </TimelineItem>
