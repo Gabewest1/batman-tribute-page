@@ -48,7 +48,9 @@ let Container = styled.div`
         "item2 timeline ."
         ".     timeline item3"
         "item4 timeline ."
-        ".     timeline .";
+        ".     timeline item5"
+        ".     timeline ."
+        "item6 timeline .";
     
     > ${TimelineItem}:nth-child(odd) {
         transform: translateX(-30%);
@@ -66,11 +68,13 @@ let Container = styled.div`
                         
 `
 let Image = styled.img`
-    max-width: 100%;
     background: white;
     box-sizing: border-box;
-    padding: 5px;
     box-shadow: 0 0 5px 2px;
+    max-width: 100%;
+    max-height: 300px;
+    margin: 0 auto;
+    padding: 5px;
     grid-area: image;
 `
 let Year = styled.h1`
@@ -136,19 +140,15 @@ class BatmanHistory extends React.Component {
                     progress={ progress }
                     bullets={ this.state.timelineItemsPositions }
                     innerRef={ (el) => this.timeline = el } />
+
                 <TimelineItem 
                     innerRef={ (el) => this.addTimelineItem({ id: 0, item: el }) }
                     style={{ gridArea: "item1" }}
                     progress={ progress }
                     position={ timelineItemsPositions[0] }>
-                    <Image src="/images/batman1.jpg" />
-                    <Year>1920</Year>
+                    <Image src="/images/detective_comics.jpg" />
                     <Description>
-                        Bruce and his family were leaving the theater
-                        after a night of festivites. On their way down
-                        a back ally, they were held up at gun point.
-                        Bruces dad, Jared, took a bullet to the skull, leaving
-                        bruce as a bastard child.
+                        Batman made his debut in issue twenty-seven of Detective Comics as Bruce Wayne.
                     </Description>
                 </TimelineItem>
 
@@ -157,14 +157,9 @@ class BatmanHistory extends React.Component {
                     style={{ gridArea: "item2" }}
                     progress={ progress }
                     position={ timelineItemsPositions[1] }>
-                    <Image src="/images/batman1.jpg" />
-                    <Year>1920</Year>
+                    <Image src="/images/batman_family.jpg" />
                     <Description>
-                        Bruce and his family were leaving the theater
-                        after a night of festivites. On their way down
-                        a back ally, they were held up at gun point.
-                        Bruces dad, Jared, took a bullet to the skull, leaving
-                        bruce as a bastard child.
+                        Bruce is brought up in Wayne Manor, and leads a happy and privileged life until the age of eight.
                     </Description>
                 </TimelineItem>
 
@@ -173,14 +168,9 @@ class BatmanHistory extends React.Component {
                     style={{ gridArea: "item3" }}
                     progress={ progress }
                     position={ timelineItemsPositions[2] }>
-                    <Image src="/images/batman1.jpg" />
-                    <Year>1920</Year>
+                    <Image src="/images/batman_family_dead.jpg" />
                     <Description>
-                        Bruce and his family were leaving the theater
-                        after a night of festivites. On their way down
-                        a back ally, they were held up at gun point.
-                        Bruces dad, Jared, took a bullet to the skull, leaving
-                        bruce as a bastard child.
+                        His parents are killed by a small-time criminal named Joe Chill while on their way home from a movie theater.
                     </Description>
                 </TimelineItem>
 
@@ -189,14 +179,34 @@ class BatmanHistory extends React.Component {
                     style={{ gridArea: "item4" }}
                     progress={ progress }
                     position={ timelineItemsPositions[3] }>
-                    <Image src="/images/batman1.jpg" />
-                    <Year>1920</Year>
+                    <Image src="/images/batman_training.jpg" />
                     <Description>
-                        Bruce and his family were leaving the theater
-                        after a night of festivites. On their way down
-                        a back ally, they were held up at gun point.
-                        Bruces dad, Jared, took a bullet to the skull, leaving
-                        bruce as a bastard child.
+                        That night, Bruce Wayne swears an oath to spend his life fighting crime. 
+                        He engages in intense intellectual and physical training; however, he realizes that these skills alone would not be enough.
+                    </Description>
+                </TimelineItem>
+
+                <TimelineItem
+                    innerRef={ (el) => this.addTimelineItem({ id: 4, item: el }) }
+                    style={{ gridArea: "item5" }}
+                    progress={ progress }
+                    position={ timelineItemsPositions[4] }>
+                    <Image src="/images/batman_discovery.jpg" />
+                    <Description>
+                        Bruce wanted to design a disguise that would strike terror into the hearts of criminals. He must be a creature of the night, black, terrible.
+                        <br />
+                        A bat suddenly flies through the window, inspiring Bruce to craft the Batman persona.
+                    </Description>
+                </TimelineItem>
+
+                <TimelineItem
+                    innerRef={ (el) => this.addTimelineItem({ id: 5, item: el }) }
+                    style={{ gridArea: "item6" }}
+                    progress={ progress }
+                    position={ timelineItemsPositions[5] }>
+                    <Image src="/images/batman_costume.png" />
+                    <Description>
+                        Thus, marking the beginning of the man, the myth, the legend... <strong>BATMAN!</strong>
                     </Description>
                 </TimelineItem>
 
